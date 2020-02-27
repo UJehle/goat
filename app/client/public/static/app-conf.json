@@ -58,6 +58,7 @@
         "queryable": false,
         "visible": false,
         "canEdit": true,
+        "editDataType": "GeoJSON",
         "editGeometry": "LineString",
         "displayInLayerList": false,
         "zIndex": 2,
@@ -824,31 +825,6 @@
     },
     "isochrones": {
       "options": {
-        "routingProfile": {
-          "name": "profile",
-          "values": [
-            {
-              "display": "Standard",
-              "value": "walking_standard",
-              "defaultSpeed": 5
-            },
-            {
-              "display": "Elderly",
-              "value": "walking_elderly",
-              "defaultSpeed": 3
-            },
-            {
-              "display": "Wheelchair",
-              "value": "walking_wheelchair",
-              "defaultSpeed": 5
-            }
-          ],
-          "active": {
-            "display": "Standard",
-            "value": "walking_standard",
-            "defaultSpeed": 5
-          }
-        },
         "calculationType": "single",
         "minutes": "10",
         "speed": "5",
@@ -856,7 +832,7 @@
         "concavityIsochrones": {
           "name": "concavity",
           "values": [
-            { "display": "0", "value": "0.00003" },
+            { "display": "Standard", "value": "0.00003" },
             { "display": "1", "value": "0.000003" },
             { "display": "2", "value": "0.0000025" },
             { "display": "3", "value": "0.000002" },
@@ -942,6 +918,35 @@
           "20": "#000ABF"
         }
       }
+    },
+    "routing": {
+      "default": "walking",
+      "options": {
+        "walking": {
+          "default": "standard",
+          "options": [
+            {
+              "value": "standard",
+              "speed": 5
+            },
+            { "value": "elderly", "speed": 3 }
+          ]
+        },
+        "cycling": {
+          "default": "standard",
+          "options": [
+            {
+              "value": "standard",
+              "speed": 15
+            },
+            { "value": "pedelec", "speed": 23 }
+          ]
+        },
+        "walking_wheelchair": {
+          "speed": 5,
+          "options": []
+        }
+      }
     }
   },
   "componentConf": {
@@ -971,7 +976,7 @@
           "values": "*"
         }
       },
-      "hiddenProps": ["userid", "id", "original_id", "status"]
+      "hiddenProps": ["userid", "id", "original_id", "status","wheelchair","opening_hours"]
     }
   }
 }
