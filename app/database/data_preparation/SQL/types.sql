@@ -109,7 +109,7 @@ CREATE TYPE type_pois_multi_isochrones AS
 DROP TYPE IF EXISTS pois_visualization CASCADE;
 CREATE TYPE public.pois_visualization AS
 (
-	gid int,
+	gid bigint,
 	amenity text,
 	name text, 
 	osm_id bigint, 
