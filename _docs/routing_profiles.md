@@ -4,9 +4,9 @@ permalink: /docs/routing_profiles/
 ---
 
 As GOAT is designed for active mobility, roads that are only designed for cars (e.g. highways) are excluded per default from the routing network.
-In addition this can be adjusted when setting up the application. Depending on the data precision in the study area and the purpose of the GOAT version, different routing profiles are available.
+In addition, this can be adjusted when setting up the application. Depending on the data precision in the study area and the purpose of the GOAT version, different routing profiles are available.
 
-When setting up your own GOAT version, the available routing profiles and according default speeds can be adjusted in configuration files when setting up GOAT. However, the speed can be adjusted directly in the user interface.
+When setting up your own GOAT version, the available routing profiles and according default speeds can be adjusted in configuration files. However, the speed can be adjusted directly in the user interface.
 
 #### Walking
 <b>Standard<b>
@@ -54,7 +54,7 @@ For Pedelecs, slopes are considered with a lower impedance than for Standard bic
 
 #### Wheelchair
 
-The wheelchair-routing is based on the walking routing, but considers only barrier-free paths. Stairs, unpaved paths and paths with high slopes are excluded from the routing.
+The wheelchair-routing is based on the walking routing, but considers only barrier-free paths and destinations. Stairs, unpaved paths and paths with high slopes are excluded from the routing. POIs that are not barrier-free are visualised with grey icons and are regarded as not accessible if the wheelchair routing profile is selected. 
 
 Via the layer "Wheelchair Usability" (to be found in the Street Level Quality layers), the conditions regarding the freedom from barriers of the paths can be displayed. 
 
