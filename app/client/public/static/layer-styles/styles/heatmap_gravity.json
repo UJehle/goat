@@ -160,7 +160,7 @@
       "filter": [
         "&&",
         ["==", "score", -3],
-        ["!=", "modus", "comparison"]
+        ["==", "modus", "comparison"]
       ]
     },
     {

@@ -1,5 +1,5 @@
 {
-  "name": "heatmap_gravity",
+  "name": "heatmap_connectivity",
   "rules": [
     {
       "name": "VeryLowConnectivity",
@@ -229,7 +229,7 @@
           -3
         ],
         [
-          "!=",
+          "==",
           "modus",
           "comparison"
         ]
