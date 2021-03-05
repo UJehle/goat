@@ -161,38 +161,28 @@ export default {
       const me = this;
       const map = me.map;
       const poisLayerName = "pois";
+      const aoisLayerName = "aois";
       const allLayers = getAllChildLayers(map);
       allLayers.forEach(layer => {
         const layerName = layer.get("name");
         if (layerName === poisLayerName) {
           me.poisLayer = layer;
         }
+        if (layerName === aoisLayerName) {
+          me.aoisLayer = layer;
+        }
       });
     },
-    updatePoisLayerViewParams(selectedPois) {
+    updatePois(selectedPois) {
       const me = this;
       if (me.poisLayer) {
-        const viewParams = selectedPois.reduce((filtered, item) => {
+        selectedPois.reduce((filtered, item) => {
           const { value } = item;
           if (value != "undefined") {
             filtered.push(value);
           }
           return filtered;
         }, []);
-
-        let params = `amenities:'${btoa(
-          viewParams.toString()
-        )}';routing_profile:'${me.activeRoutingProfile}';scenario_id:${
-          me.scenarioId
-        };modus:'${me.options.calculationModes.active}';`;
-
-        if (this.timeBasedCalculations === "yes") {
-          params += `d:${me.getSelectedDay};h:${me.getSelectedHour};m:${me.getSelectedMinutes};`;
-        }
-
-        me.poisLayer.getSource().updateParams({
-          viewparams: params
-        });
       }
     },
     toggleHeatmapDialog(amenity) {
@@ -247,7 +237,9 @@ export default {
       }
     },
     treeViewChanged() {
-      this.selectedPois = this.selectedPois.filter(x => x.locked != true);
+      this.selectedPois = this.selectedPois.filter(x => {
+        return x.locked != true;
+      });
     },
     ...mapMutations("map", {
       toggleSnackbar: "TOGGLE_SNACKBAR"
@@ -255,10 +247,10 @@ export default {
   },
   watch: {
     "options.calculationModes.active": function() {
-      this.updatePoisLayerViewParams(this.selectedPois);
+      this.updatePois(this.selectedPois);
     },
     scenarioId() {
-      this.updatePoisLayerViewParams(this.selectedPois);
+      this.updatePois(this.selectedPois);
     },
     selectedPois: function() {
       const me = this;
@@ -266,21 +258,22 @@ export default {
       if (me.selectedPois.length > 0 && me.poisLayer.getVisible() === false) {
         me.poisLayer.setVisible(true);
       }
+
       me.updateSelectedPoisForThematicData(me.selectedPois);
-      me.updatePoisLayerViewParams(me.selectedPois);
+      me.updatePois(me.selectedPois);
       me.countStudyAreaPois();
     },
     activeRoutingProfile: function(newValue, oldValue) {
       if (this.timeBasedCalculations === "yes") {
         this.toggleRoutingFilter(newValue, oldValue);
       }
-      this.updatePoisLayerViewParams(this.selectedPois);
+      this.updatePois(this.selectedPois);
     },
     dayFilter: function() {
-      this.updatePoisLayerViewParams(this.selectedPois);
+      this.updatePois(this.selectedPois);
     },
     hourFilter: function() {
-      this.updatePoisLayerViewParams(this.selectedPois);
+      this.updatePois(this.selectedPois);
     }
   },
   computed: {
@@ -307,6 +300,19 @@ export default {
       hourFilter: "timeFilter.hour",
       selectedPois: "selectedPois"
     }),
+    aois() {
+      const _aois = [];
+      const aois = this.allPois.filter(
+        i => i.categoryValue == "recreationAreas"
+      );
+
+      if (aois.length > 0) {
+        aois[0].children.forEach(child => {
+          _aois.push(child);
+        });
+      }
+      return _aois;
+    },
     getSelectedDay() {
       return this.dayFilter ? this.dayFilter : 9999;
     },

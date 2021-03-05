@@ -1,0 +1,18 @@
+{
+    "name": "Style Bicycle Parking",
+    "rules": [
+      {
+        "name": "bicycleParking",
+        "scaleDenominator": {
+          "max": 75000
+        },
+        "symbolizers": [
+          {
+            "kind": "Icon",
+            "image": "static/layer-styles/assets/icons/street_furniture_bicycle/bicycle_parking.png",
+            "size": 0.5
+          }
+        ]
+      }
+    ]
+  }

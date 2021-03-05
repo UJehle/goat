@@ -44,7 +44,9 @@
                       v-if="item.mapLayer.get('docUrl')"
                       class="documentation elevation-1"
                       @click.stop="openDocumentation(item)"
-                    ></div>
+                    >
+                      <i class="info-icon fas fa-info fa-sm"></i>
+                    </div>
                   </template>
                   <span>{{ $t(`map.tooltips.openDocumentation`) }}</span>
                 </v-tooltip>
@@ -120,6 +122,7 @@ import { Mapable } from "../../../mixins/Mapable";
 import { Group, Vector } from "ol/layer.js";
 import { mapGetters, mapMutations } from "vuex";
 import DocumentationDialog from "../../other/DocumentationDialog";
+import { EventBus } from "../../../EventBus";
 
 export default {
   mixins: [Mapable],
@@ -157,7 +160,11 @@ export default {
         .getArray()
         .forEach((layer, index) => {
           let obj = me.getMapLayerObj(layer, index);
-          if (layer instanceof Group && layer.get("name") != "undefined") {
+          if (
+            layer instanceof Group &&
+            layer.get("name") != "undefined" &&
+            layer.get("name") != "osmMappingLayers"
+          ) {
             me.layers.push(obj);
           } else if (
             layer instanceof Vector &&
@@ -242,6 +249,7 @@ export default {
       if (clickedLayer.mapLayer.getVisible() === false) {
         clickedLayer.showOptions = false;
       }
+      EventBus.$emit("toggleLayerVisiblity", clickedLayer.mapLayer);
     },
     openDocumentation(item) {
       this.showDocumentationDialog = true;
@@ -278,7 +286,7 @@ export default {
 }
 
 .expansion-panel__container--active {
-  background-color: #4caf50 !important;
+  background-color: #2bb381 !important;
   color: white !important;
 }
 
@@ -298,9 +306,20 @@ export default {
   height: 30px;
   width: 60px;
   opacity: 0.8;
-  background: #4caf50;
+  background: #2bb381;
   transform: rotate(45deg);
   z-index: 20;
   cursor: pointer;
+}
+.info-icon {
+  position: absolute;
+  top: 16px;
+  left: 18px;
+  color: white;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
 </style>
